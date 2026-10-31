@@ -1,0 +1,36 @@
+# Build output
+target/
+*.class
+*.jar
+*.log
+logs/
+test-*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Secrets - never commit these
+*.env
+!*.env.example
+k8s/k8s-secrets.env
+
+# Generated reports
+verify-report.json
+
+# Load-test material that must never be committed
+loadtest/api_keys.csv
+loadtest/results/
+*.jtl
+jmeter.log
+.env
+
+# Never publish local configuration
+local-config/
+
+# Publish approved evidence copies only
+!docs/evidence/
+!docs/evidence/verify-report.json
+!docs/evidence/load-test-results.jtl

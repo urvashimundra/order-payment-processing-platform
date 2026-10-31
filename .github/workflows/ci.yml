@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      # common-lib is a dependency of every service, so build + install it first
+      - name: common-lib
+        working-directory: common-lib
+        run: chmod +x mvnw && ./mvnw -B install
+
+      - name: Unit tests for each service
+        run: |
+          set -e
+          for module in merchant-service payment-service operations-service vault-service api-gateway-service; do
+            echo "::group::$module"
+            (cd "$module" && chmod +x mvnw && ./mvnw -B test)
+            echo "::endgroup::"
+          done

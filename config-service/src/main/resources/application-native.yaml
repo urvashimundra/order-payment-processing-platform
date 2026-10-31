@@ -1,0 +1,11 @@
+# Copy to: config-service/src/main/resources/application-native.yaml
+# Activated with the "native" profile. Makes the Config Server read local files
+# instead of the private GitHub repo.
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          # Relative to the folder you run the command from (config-service/).
+          # Override with:  LOCAL_CONFIG_DIR=file:/absolute/path/to/local-config/
+          search-locations: ${LOCAL_CONFIG_DIR:file:../local-config/}

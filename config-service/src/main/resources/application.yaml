@@ -1,0 +1,66 @@
+# NOTE: credentials are read from environment variables. Never commit real tokens.
+# For local runs use the 'native' profile instead (see README.md), which needs no Git at all.
+spring:
+  application:
+    name: config-service
+  profiles:
+    # Local default: read config from ./local-config (no GitHub needed).
+    # Ignored automatically when another profile (e.g. k8s) is active.
+    default: native
+
+  cloud:
+    config.server.git:
+      uri: ${GIT_CONFIG_REPO:https://github.com/YOUR_USER/YOUR_CONFIG_REPO}
+      username: ${GIT_USERNAME:}
+      password: ${GIT_PASSWORD:}
+      default-label: master
+
+server.port: 8888
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  health:
+    config:
+      enabled: false
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: k8s
+
+  cloud:
+    discovery:
+      enabled: false
+
+    config.server.git:
+      uri: ${GIT_CONFIG_REPO:https://github.com/YOUR_USER/YOUR_CONFIG_REPO}
+      username: ${GIT_USERNAME:}
+      password: ${GIT_PASSWORD:}
+
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
+
+management:
+  zipkin:
+    tracing:
+      endpoint: http://zipkin.pay-core.svc.cluster.local:9411/api/v2/spans
+
+

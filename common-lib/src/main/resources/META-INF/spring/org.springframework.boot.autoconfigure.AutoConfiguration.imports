@@ -1,0 +1,7 @@
+com.paymentplatform.common_lib.util.SharedSecurityAutoConfiguration
+com.paymentplatform.common_lib.config.SharedKafkaAutoConfiguration
+com.paymentplatform.common_lib.web.SharedWebFilterAutoConfiguration
+com.paymentplatform.common_lib.idempotency.SharedResilienceAutoConfiguration
+com.paymentplatform.common_lib.audit.SharedAuditAutoConfiguration
+com.paymentplatform.common_lib.exception.SharedExceptionAutoConfiguration
+com.paymentplatform.common_lib.config.ZipkinConfig

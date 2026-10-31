@@ -1,0 +1,402 @@
+﻿[
+    {
+        "Check":  "Docker is reachable",
+        "Ok":  true,
+        "Detail":  ""
+    },
+    {
+        "Check":  "postgres container running",
+        "Ok":  true,
+        "Detail":  ""
+    },
+    {
+        "Check":  "redis container running",
+        "Ok":  true,
+        "Detail":  ""
+    },
+    {
+        "Check":  "kafka container running",
+        "Ok":  true,
+        "Detail":  ""
+    },
+    {
+        "Check":  "zipkin container running",
+        "Ok":  true,
+        "Detail":  ""
+    },
+    {
+        "Check":  "config-service is UP",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "merchant-service is UP",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "payment-service is UP",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "operations-service is UP",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "vault-service is UP",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "api-gateway-service is UP",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "Eureka has \u003e= 5 registered apps",
+        "Ok":  true,
+        "Detail":  "(found: PAYMENT-SERVICE, OPERATIONS-SERVICE, MERCHANT-SERVICE, API-GATEWAY-SERVICE, CONFIG-SERVICE, VAULT-SERVICE)"
+    },
+    {
+        "Check":  "payment.method column is text (not a number)",
+        "Ok":  true,
+        "Detail":  "(is \u0027character varying\u0027. Old schema? run: docker compose down -v, then restart everything)"
+    },
+    {
+        "Check":  "Signup returns 201",
+        "Ok":  true,
+        "Detail":  "(HTTP 201)"
+    },
+    {
+        "Check":  "Login returns a JWT",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "API key created (201)",
+        "Ok":  true,
+        "Detail":  "(HTTP 201)"
+    },
+    {
+        "Check":  "Duplicate signup (different letter case) is rejected with 409",
+        "Ok":  true,
+        "Detail":  "(HTTP 409)"
+    },
+    {
+        "Check":  "Short password is rejected with 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "Wrong password returns 401",
+        "Ok":  true,
+        "Detail":  "(HTTP 401)"
+    },
+    {
+        "Check":  "Unknown email returns the SAME 401 (no user enumeration)",
+        "Ok":  true,
+        "Detail":  "(HTTP 401)"
+    },
+    {
+        "Check":  "Login works with different letter case in the email",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "Protected route without credentials -\u003e 401",
+        "Ok":  true,
+        "Detail":  "(HTTP 401)"
+    },
+    {
+        "Check":  "Garbage JWT -\u003e 401",
+        "Ok":  true,
+        "Detail":  "(HTTP 401)"
+    },
+    {
+        "Check":  "Unknown API key -\u003e 401",
+        "Ok":  true,
+        "Detail":  "(HTTP 401)"
+    },
+    {
+        "Check":  "Create key without \u0027environment\u0027 -\u003e 400 (was a 500)",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "List keys returns the new key",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "Rotate key returns a NEW secret",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "New secret authenticates (404 = authenticated, order just doesn\u0027t exist)",
+        "Ok":  true,
+        "Detail":  "(HTTP 404)"
+    },
+    {
+        "Check":  "Revoke key: DELETE /api-keys/{id} -\u003e 204 (route was broken)",
+        "Ok":  true,
+        "Detail":  "(HTTP 204)"
+    },
+    {
+        "Check":  "Revoked key is rejected -\u003e 401",
+        "Ok":  true,
+        "Detail":  "(HTTP 401)"
+    },
+    {
+        "Check":  "Rotating a revoked key -\u003e 4xx, not 500",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "Merchant B cannot revoke merchant A\u0027s key -\u003e 404",
+        "Ok":  true,
+        "Detail":  "(HTTP 404)"
+    },
+    {
+        "Check":  "Zero amount -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "Negative amount -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "Unsupported currency -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "Missing amount -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "Create order (Rs 500) -\u003e 201, status CREATED",
+        "Ok":  true,
+        "Detail":  "(HTTP 201)"
+    },
+    {
+        "Check":  "Order belongs to the authenticated merchant",
+        "Ok":  true,
+        "Detail":  ""
+    },
+    {
+        "Check":  "Duplicate receipt -\u003e 409",
+        "Ok":  true,
+        "Detail":  "(HTTP 409)"
+    },
+    {
+        "Check":  "GET /v1/orders/{id} -\u003e 200",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "Merchant B cannot read merchant A\u0027s order -\u003e 404",
+        "Ok":  true,
+        "Detail":  "(HTTP 404)"
+    },
+    {
+        "Check":  "Unknown order id -\u003e 404 with ORDER_NOT_FOUND",
+        "Ok":  true,
+        "Detail":  "(HTTP 404)"
+    },
+    {
+        "Check":  "Malformed order id -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "SECURITY: forged X-Merchant-Id header is ignored (order still belongs to A)",
+        "Ok":  true,
+        "Detail":  "(HTTP 201, merchantId=493eaceb-3278-4d64-8c83-24236db308ad)"
+    },
+    {
+        "Check":  "Cancel an unpaid order -\u003e 200 CANCELLED",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "Paying a cancelled order -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "Payment without orderId -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "Unknown payment method -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "CARD payment without token -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "NETBANKING payment without bank -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "Merchant B cannot pay merchant A\u0027s order -\u003e 404",
+        "Ok":  true,
+        "Detail":  "(HTTP 404)"
+    },
+    {
+        "Check":  "UPI with the magic failing VPA -\u003e FAILED / UPI_REJECTED",
+        "Ok":  true,
+        "Detail":  "(HTTP 201, status=FAILED code=UPI_REJECTED)"
+    },
+    {
+        "Check":  "UPI payment initiated -\u003e 201 AUTHORIZING",
+        "Ok":  true,
+        "Detail":  "(HTTP 201, status=AUTHORIZING)"
+    },
+    {
+        "Check":  "IDEMPOTENCY: same key returns the same payment id",
+        "Ok":  true,
+        "Detail":  "(first=c1c76749-bab3-4a6a-8ce2-9d596ff509a8 second=c1c76749-bab3-4a6a-8ce2-9d596ff509a8)"
+    },
+    {
+        "Check":  "GET /v1/payments/{id} -\u003e 200",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "A payment reaches CAPTURED (full authorise + capture flow)",
+        "Ok":  true,
+        "Detail":  "(8 attempts all declined?)"
+    },
+    {
+        "Check":  "Order moved to PAID after capture",
+        "Ok":  true,
+        "Detail":  "(status=PAID)"
+    },
+    {
+        "Check":  "GET /v1/orders/{id}/payments lists the payment",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "Capturing an already captured payment -\u003e 409",
+        "Ok":  true,
+        "Detail":  "(HTTP 409)"
+    },
+    {
+        "Check":  "Paying an already PAID order -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "State transitions were logged (\u003e= 4)",
+        "Ok":  true,
+        "Detail":  "(count=\u00274\u0027)"
+    },
+    {
+        "Check":  "Unknown payment id -\u003e 404",
+        "Ok":  true,
+        "Detail":  "(HTTP 404)"
+    },
+    {
+        "Check":  "Merchant B cannot read merchant A\u0027s payment -\u003e 404",
+        "Ok":  true,
+        "Detail":  "(HTTP 404)"
+    },
+    {
+        "Check":  "Wrong HTTP method -\u003e 405 (was a 500)",
+        "Ok":  true,
+        "Detail":  "(HTTP 405)"
+    },
+    {
+        "Check":  "Tokenize a card -\u003e 201 with tok_ token (also proves AES encryption works)",
+        "Ok":  true,
+        "Detail":  "(HTTP 201)"
+    },
+    {
+        "Check":  "Token response never contains the card number",
+        "Ok":  true,
+        "Detail":  ""
+    },
+    {
+        "Check":  "Card failing the Luhn check -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "Expired card year -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "CARD payment with a valid token is accepted (201, AUTHORIZING or already CAPTURED)",
+        "Ok":  true,
+        "Detail":  "(HTTP 201, status=AUTHORIZING code= why=)"
+    },
+    {
+        "Check":  "SECURITY: merchant B cannot charge merchant A\u0027s card token",
+        "Ok":  true,
+        "Detail":  "(status=FAILED code=CARD_TOKEN_INVALID why=Card token not found or revoked)"
+    },
+    {
+        "Check":  "Unknown card token -\u003e FAILED / CARD_TOKEN_INVALID",
+        "Ok":  true,
+        "Detail":  "(status=FAILED code=CARD_TOKEN_INVALID why=Card token not found or revoked)"
+    },
+    {
+        "Check":  "Create webhook config -\u003e 200 with secret (proves webhook-secret encryption works)",
+        "Ok":  true,
+        "Detail":  "(HTTP 200)"
+    },
+    {
+        "Check":  "Listing webhooks never shows the secret again",
+        "Ok":  true,
+        "Detail":  ""
+    },
+    {
+        "Check":  "Invalid webhook URL -\u003e 400",
+        "Ok":  true,
+        "Detail":  "(HTTP 400)"
+    },
+    {
+        "Check":  "A webhook event was DELIVERED to the merchant URL",
+        "Ok":  true,
+        "Detail":  "(waited 60s; check operations-service + Kafka)"
+    },
+    {
+        "Check":  "Webhook signature = HMAC-SHA256(secret, exact body that was sent)",
+        "Ok":  true,
+        "Detail":  "(stored=6e367f7feede16910a840736afca3b987855278d21a4940a28628dce10719d2b computed=6e367f7feede16910a840736afca3b987855278d21a4940a28628dce10719d2b)"
+    },
+    {
+        "Check":  "Outbox: no payment events stuck in PENDING",
+        "Ok":  true,
+        "Detail":  "(stuck=0)"
+    },
+    {
+        "Check":  "Outbox: no payment events FAILED",
+        "Ok":  true,
+        "Detail":  "(failed=0)"
+    },
+    {
+        "Check":  "Outbox: events were published to Kafka",
+        "Ok":  true,
+        "Detail":  "(published=18)"
+    },
+    {
+        "Check":  "Login brute-force is throttled with HTTP 429",
+        "Ok":  true,
+        "Detail":  "(no 429 after 22 attempts)"
+    }
+]

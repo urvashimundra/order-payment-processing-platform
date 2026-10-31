@@ -1,0 +1,57 @@
+# Local infrastructure for the payment platform microservices project.
+# Start with:  docker compose up -d
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: pay-postgres
+    environment:
+      POSTGRES_USER: postgres
+      # DEVELOPMENT ONLY default. Override with a .env file (see .env.example).
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      # Runs only the FIRST time the volume is created
+      - ./postgres-init/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: pay-redis
+    ports:
+      - "6379:6379"
+
+  kafka:
+    image: confluentinc/confluent-local:7.5.0
+    container_name: pay-kafka
+    hostname: kafka
+    ports:
+      - "29092:29092"   # apps on your machine connect to localhost:29092
+    environment:
+      KAFKA_NODE_ID: "1"
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:29093"
+      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:29093,PLAINTEXT_HOST://0.0.0.0:29092"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "1"
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: "0"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "1"
+      KAFKA_HEAP_OPTS: "-Xms512M -Xmx512M"
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: pay-zipkin
+    ports:
+      - "9411:9411"
+
+volumes:
+  postgres-data:
